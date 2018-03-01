@@ -8,9 +8,9 @@ module Passfort
     DOMAIN = "https://api.passfort.com"
     ROOT_PATH = "/4.0"
 
-    def initialize(api_key)
+    def initialize(api_key, connection: Excon.new(DOMAIN))
       @api_key = api_key
-      @connection = Excon.new(DOMAIN)
+      @connection = connection
     end
 
     def get(path)

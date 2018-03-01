@@ -10,7 +10,11 @@ module Passfort
       end
 
       def create(role:, collected_data: {})
-        @client.post("/profiles", role: role, collected_data: collected_data)
+        profile = @client.post(
+          "/profiles",
+          body: { role: role, collected_data: collected_data },
+        )
+        ::Passfort::Resource::Profile.new(profile)
       end
 
       def list
