@@ -14,7 +14,7 @@ RSpec.describe Passfort::Endpoint::Profiles do
     let(:role) { "a_role" }
     let(:collected_data) { {} }
     let(:expected_request_body) { { role: role, collected_data: collected_data }.to_json }
-    let(:response) { load_fixture("profiles/create_response.json") }
+    let(:response) { load_fixture("profile.json") }
 
     before do
       Excon.stub(
@@ -30,7 +30,7 @@ RSpec.describe Passfort::Endpoint::Profiles do
     subject { endpoint.find(id) }
 
     let(:id) { "b82b0434-f9e8-11e7-8397-000000000000" }
-    let(:response) { load_fixture("profiles/create_response.json") }
+    let(:response) { load_fixture("profile.json") }
 
     before do
       Excon.stub(

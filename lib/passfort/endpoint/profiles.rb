@@ -17,10 +17,6 @@ module Passfort
         ::Passfort::Resource::Profile.new(profile)
       end
 
-      def list
-        @client.get("/profiles")
-      end
-
       def find(id)
         profile = @client.get("/profiles/#{id}")
         ::Passfort::Resource::Profile.new(profile)

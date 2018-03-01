@@ -1,0 +1,67 @@
+{
+    "check_type": "IDENTITY_CHECK",
+    "errors": [],
+    "id": "6c1d594a-496e-11e7-911e-acbc32b67d7b",
+    "input_data": {
+        "address_history": [
+            {
+                "address": {
+                    "country": "Southend-on-Sea",
+                    "locality": "Southend-on-Sea",
+                    "postal_code": "1",
+                    "postal_town": "Leigh-on-Sea",
+                    "route": "The Fairway",
+                    "state_province": "England",
+                    "street_number": "106",
+                    "type": "STRUCTURED"
+                },
+                "end_date": "2017-05",
+                "start_date": "2017-01"
+            }
+        ],
+        "entity_type": "INDIVIDUAL",
+        "personal_details": {
+            "dob": "1987-01-01",
+            "name": {
+                "family_name": "Smith",
+                "given_names": [
+                    "Thomas"
+                ]
+            }
+        }
+    },
+    "output_data": {
+        "credit_ref": {
+            "exact": {
+                "count": 8,
+                "match": true
+            },
+            "exact_dob": {
+                "count": 8,
+                "match": true
+            },
+            "partial": {
+                "count": 8,
+                "match": true
+            }
+        },
+        "db_matches": {
+            "electoral_exact": {
+                "count": 1,
+                "match": true
+            },
+            "electoral_exact_dob": {
+                "count": 0,
+                "match": false
+            },
+            "electoral_partial": {
+                "count": 1,
+                "match": true
+            }
+        },
+        "entity_type": "INDIVIDUAL"
+    },
+    "result": "2+2",
+    "state": "COMPLETE",
+    "task_ids": []
+}
