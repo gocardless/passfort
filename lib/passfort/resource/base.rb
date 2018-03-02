@@ -10,6 +10,10 @@ module Passfort
       def initialize(attributes)
         @attributes = attributes.symbolize_keys
       end
+
+      def to_h
+        @attributes
+      end
     end
   end
 end

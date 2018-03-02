@@ -1,0 +1,78 @@
+{
+    "check_type": "COMPANY_OWNERSHIP",
+    "errors": [],
+    "id": "30e4ea06-0519-11e8-000000000000",
+    "input_data": {
+        "entity_type": "COMPANY",
+        "metadata": {
+            "country_of_incorporation": "GBR",
+            "number": "09565115"
+        }
+    },
+    "output_data": {
+        "entity_type": "COMPANY",
+        "metadata": {},
+        "ownership_structure": {
+            "shareholders": [
+                {
+                    "entity_type": "INDIVIDUAL",
+                    "immediate_data": {
+                        "address_history": [],
+                        "entity_type": "INDIVIDUAL",
+                        "personal_details": {
+                            "name": {
+                                "family_name": "Gillies",
+                                "given_names": [
+                                    "Donald"
+                                ]
+                            }
+                        }
+                    },
+                    "provider_name": "DueDil",
+                    "resolver_id": "322d0f54-0519-11e8-914c-000000000000",
+                    "shareholdings": [
+                        {
+                            "amount": 100,
+                            "currency": "GBP",
+                            "percentage": 50,
+                            "share_class": "Ordinary"
+                        }
+                    ],
+                    "total_percentage": 50
+                },
+                {
+                    "entity_type": "INDIVIDUAL",
+                    "immediate_data": {
+                        "address_history": [],
+                        "entity_type": "INDIVIDUAL",
+                        "personal_details": {
+                            "name": {
+                                "family_name": "Irish",
+                                "given_names": [
+                                    "Henry"
+                                ]
+                            }
+                        }
+                    },
+                    "provider_name": "DueDil",
+                    "resolver_id": "322d1f9e-0519-11e8-b046-000000000000",
+                    "shareholdings": [
+                        {
+                            "amount": 100,
+                            "currency": "GBP",
+                            "percentage": 50,
+                            "share_class": "Ordinary"
+                        }
+                    ],
+                    "total_percentage": 50
+                }
+            ]
+        }
+    },
+    "performed_on": "2018-01-29 17:24:01",
+    "result": "Pass",
+    "state": "COMPLETE",
+    "task_ids": [
+        "b845e7f4-f9e8-11e7-a4d1-000000000000"
+    ]
+}

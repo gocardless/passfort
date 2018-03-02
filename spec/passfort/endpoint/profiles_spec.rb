@@ -3,24 +3,18 @@
 require "spec_helper"
 
 RSpec.describe Passfort::Endpoint::Profiles do
-  let(:endpoint) { described_class.new(client) }
-
-  let(:client) { Passfort::Http.new("api_key", connection: connection) }
-  let(:connection) { Excon.new("http://localhost", mock: true) }
+  let(:endpoint) { described_class.new(Passfort::Http.new("api_key")) }
 
   describe "#create" do
     subject { endpoint.create(role: role, collected_data: collected_data) }
 
     let(:role) { "a_role" }
     let(:collected_data) { {} }
-    let(:expected_request_body) { { role: role, collected_data: collected_data }.to_json }
-    let(:response) { load_fixture("profile.json") }
 
     before do
-      Excon.stub(
-        { method: :post, path: "/4.0/profiles", body: expected_request_body },
-        status: 200, body: response,
-      )
+      stub_request(:post, %r{/profiles\z}).
+        with(body: { role: role, collected_data: collected_data }).
+        to_return(status: 200, body: load_fixture("profile.json"))
     end
 
     it { is_expected.to have_attributes(id: "b82b0434-f9e8-11e7-8397-000000000000") }
@@ -30,13 +24,10 @@ RSpec.describe Passfort::Endpoint::Profiles do
     subject { endpoint.find(id) }
 
     let(:id) { "b82b0434-f9e8-11e7-8397-000000000000" }
-    let(:response) { load_fixture("profile.json") }
 
     before do
-      Excon.stub(
-        { method: :get, path: "/4.0/profiles/#{id}" },
-        status: 200, body: response,
-      )
+      stub_request(:get, %r{/profiles/#{id}}).
+        to_return(status: 200, body: load_fixture("profile.json"))
     end
 
     it { is_expected.to have_attributes(id: id) }

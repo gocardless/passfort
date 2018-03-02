@@ -1,0 +1,128 @@
+{
+    "applications": [
+        {
+            "approval_blockers": [
+                {
+                    "blocker_type": "INCOMPLETE_TASK",
+                    "task_type": "COMPANY_VERIFY_IDENTITY"
+                },
+                {
+                    "blocker_type": "INCOMPLETE_TASK",
+                    "task_type": "COMPANY_IDENTIFY_AUTHORIZED_PERSONS"
+                },
+                {
+                    "blocker_type": "INCOMPLETE_TASK",
+                    "task_type": "COMPANY_IDENTIFY_OFFICERS"
+                },
+                {
+                    "blocker_type": "INCOMPLETE_TASK",
+                    "task_type": "COMPANY_IDENTIFY_BENEFICIAL_OWNERS"
+                },
+                {
+                    "blocker_type": "INCOMPLETE_TASK",
+                    "task_type": "COMPANY_ASSESS_SANCTIONS_EXPOSURE"
+                },
+                {
+                    "blocker_type": "INCOMPLETE_TASK",
+                    "task_type": "COMPANY_REVIEW_FILINGS"
+                }
+            ],
+            "history": [
+                {
+                    "date": "2018-01-15 11:39:17",
+                    "status": "APPLIED"
+                }
+            ],
+            "id": "b83a64ec-f9e8-11e7-82a7-000000000000",
+            "product": {
+                "id": "eb299330-f63a-11e7-bc01-000000000000",
+                "name": "Mortgage"
+            },
+            "status": "APPLIED"
+        }
+    ],
+    "category": "APPLICANT",
+    "checks": [],
+    "collected_data": {
+        "entity_type": "COMPANY",
+        "metadata": {
+            "country_of_incorporation": "GBR",
+            "number": "09565115"
+        }
+    },
+    "collection_steps": [],
+    "display_name": "PassFort Limited",
+    "document_images": [],
+    "events": [],
+    "has_associates": false,
+    "has_collection_steps": false,
+    "id": "b82b0434-f9e8-11e7-8397-000000000000",
+    "linked_to": [],
+    "risk": {},
+    "role": "COMPANY_CUSTOMER",
+    "status": "NORMAL",
+    "tags": [],
+    "task_progress": {
+        "completed_count": 0,
+        "total_count": 6
+    },
+    "task_types": [
+        "COMPANY_VERIFY_IDENTITY",
+        "COMPANY_IDENTIFY_AUTHORIZED_PERSONS",
+        "COMPANY_IDENTIFY_OFFICERS",
+        "COMPANY_IDENTIFY_BENEFICIAL_OWNERS",
+        "COMPANY_ASSESS_SANCTIONS_EXPOSURE",
+        "COMPANY_REVIEW_FILINGS"
+    ],
+    "tasks": [
+        {
+            "check_ids": [],
+            "creation_date": "2018-01-15 11:39:17",
+            "id": "b83e2d7e-f9e8-11e7-8229-000000000000",
+            "is_complete": false,
+            "is_expired": false,
+            "type": "COMPANY_VERIFY_IDENTITY"
+        },
+        {
+            "check_ids": [],
+            "creation_date": "2018-01-15 11:39:17",
+            "id": "b841b73e-f9e8-11e7-b17f-000000000000",
+            "is_complete": false,
+            "is_expired": false,
+            "type": "COMPANY_IDENTIFY_AUTHORIZED_PERSONS"
+        },
+        {
+            "check_ids": [],
+            "creation_date": "2018-01-15 11:39:17",
+            "id": "b843d282-f9e8-11e7-b539-000000000000",
+            "is_complete": false,
+            "is_expired": false,
+            "type": "COMPANY_IDENTIFY_OFFICERS"
+        },
+        {
+            "check_ids": [],
+            "creation_date": "2018-01-15 11:39:17",
+            "id": "b845e7f4-f9e8-11e7-a4d1-000000000000",
+            "is_complete": false,
+            "is_expired": false,
+            "type": "COMPANY_IDENTIFY_BENEFICIAL_OWNERS"
+        },
+        {
+            "check_ids": [],
+            "creation_date": "2018-01-15 11:39:17",
+            "id": "b8485a78-f9e8-11e7-86ee-000000000000",
+            "is_complete": false,
+            "is_expired": false,
+            "type": "COMPANY_ASSESS_SANCTIONS_EXPOSURE"
+        },
+        {
+            "check_ids": [],
+            "creation_date": "2018-01-15 11:39:17",
+            "id": "b84ad2de-f9e8-11e7-806b-000000000000",
+            "is_complete": false,
+            "is_expired": false,
+            "type": "COMPANY_REVIEW_FILINGS"
+        }
+    ],
+    "unresolved_event_types": []
+}
