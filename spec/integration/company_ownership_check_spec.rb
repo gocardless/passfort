@@ -20,9 +20,9 @@ RSpec.describe "running a company ownership check" do
 
   it "succeeds" do
     create_profile_args = {
-      role: "COMPANY_CUSTOMER",
+      role: Passfort::Role::COMPANY_CUSTOMER,
       collected_data: {
-        entity_type: "COMPANY",
+        entity_type: Passfort::EntityType::COMPANY,
         metadata: {
           country_of_incorporation: "GBR",
           number: "09565115",
