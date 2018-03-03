@@ -24,14 +24,22 @@ module Passfort
 
       def collected_data(id)
         collected_data = @client.get("/profiles/#{id}/collected_data")
-        # TODO: this can be either individual or company
-        ::Passfort::Resource::CompanyData.new(collected_data)
+        resource_class(collected_data["entity_type"]).new(collected_data)
       end
 
       def update_collected_data(id, data)
         collected_data = @client.post("/profiles/#{id}/collected_data", body: data)
-        # TODO: this can be either individual or company
-        ::Passfort::Resource::CompanyData.new(collected_data)
+        resource_class(collected_data["entity_type"]).new(collected_data)
+      end
+
+      private
+
+      def resource_class(entity_type)
+        case entity_type
+        when Passfort::EntityType::COMPANY then ::Passfort::Resource::CompanyData
+        when Passfort::EntityType::INDIVIDUAL then ::Passfort::Resource::IndividualData
+        else raise ArgumentError, "Invalid entity type #{entity_type.inspect}"
+        end
       end
     end
   end

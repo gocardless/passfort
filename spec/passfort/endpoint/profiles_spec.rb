@@ -3,33 +3,77 @@
 require "spec_helper"
 
 RSpec.describe Passfort::Endpoint::Profiles do
-  let(:endpoint) { described_class.new(Passfort::Http.new("api_key")) }
+  let(:profiles) { described_class.new(client) }
+
+  let(:client) { instance_double(Passfort::Http) }
+
+  let(:profile_fixture) { JSON.parse(load_fixture("profile.json")) }
+  let(:collected_data_fixture) { JSON.parse(load_fixture("collected_data.json")) }
 
   describe "#create" do
-    subject { endpoint.create(role: role, collected_data: collected_data) }
+    subject { profiles.create(role: role, collected_data: collected_data) }
 
-    let(:role) { "a_role" }
+    let(:role) { Passfort::Role::COMPANY_CUSTOMER }
     let(:collected_data) { {} }
 
     before do
-      stub_request(:post, %r{/profiles\z}).
-        with(body: { role: role, collected_data: collected_data }).
-        to_return(status: 200, body: load_fixture("profile.json"))
+      allow(client).
+        to receive(:post).
+        with("/profiles", body: { role: role, collected_data: collected_data }).
+        and_return(profile_fixture)
     end
 
-    it { is_expected.to have_attributes(id: "b82b0434-f9e8-11e7-8397-000000000000") }
+    it { is_expected.to have_attributes(id: profile_fixture["id"]) }
   end
 
   describe "#find" do
-    subject { endpoint.find(id) }
+    subject { profiles.find(id) }
 
-    let(:id) { "b82b0434-f9e8-11e7-8397-000000000000" }
+    let(:id) { profile_fixture["id"] }
 
     before do
-      stub_request(:get, %r{/profiles/#{id}}).
-        to_return(status: 200, body: load_fixture("profile.json"))
+      allow(client).to receive(:get).with("/profiles/#{id}").and_return(profile_fixture)
     end
 
     it { is_expected.to have_attributes(id: id) }
+  end
+
+  describe "#collected_data" do
+    subject { profiles.collected_data(id) }
+
+    let(:id) { profile_fixture["id"] }
+
+    before do
+      allow(client).
+        to receive(:get).
+        with("/profiles/#{id}/collected_data").
+        and_return(collected_data_fixture)
+    end
+
+    it { is_expected.to have_attributes(entity_type: Passfort::EntityType::COMPANY) }
+    it { is_expected.to be_a(Passfort::Resource::CompanyData) }
+  end
+
+  describe "#update_collected_data" do
+    subject { profiles.update_collected_data(id, data) }
+
+    let(:id) { profile_fixture["id"] }
+    let(:data) do
+      collected_data_fixture.merge(metadata: { country_of_incorporation: "FR" })
+    end
+
+    before do
+      allow(client).
+        to receive(:post).
+        with("/profiles/#{id}/collected_data", body: data).
+        and_return(data)
+    end
+
+    it do
+      is_expected.to have_attributes(
+        entity_type: Passfort::EntityType::COMPANY,
+        metadata: { country_of_incorporation: "FR" },
+      )
+    end
   end
 end
