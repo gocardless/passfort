@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/passfort
+    docker:
+      - image: ruby:2.5
+    steps:
+      - checkout
+      - restore_cache:
+          key: gemfile-lock-{{ checksum "Gemfile.lock" }}
+      - run: bundle install --deployment
+      - save_cache:
+          key: gemfile-lock-{{ checksum "Gemfile.lock" }}
+          paths:
+            - "vendor/bundle"
+      - run: bundle exec rubocop
+      - run: bundle exec rspec --format RspecJunitFormatter
