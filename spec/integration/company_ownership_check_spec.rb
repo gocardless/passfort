@@ -18,28 +18,9 @@ RSpec.describe "running a company ownership check" do
     load_fixture("company_ownership_check/collected_data_update_request.json")
   end
 
-  before do
-    stub_request(:post, %r{/profiles\z}).
-      with(body: create_profile_args).
-      to_return(status: 201, body: profile_fixture)
-    stub_request(:post, %r{/profiles/#{profile.id}/checks\z}).
-      with(body: { check_type: "COMPANY_OWNERSHIP" }).
-      to_return(status: 201, body: check_fixture)
-    stub_request(:get, %r{/profiles/#{profile.id}/collected_data\z}).
-      to_return(
-        status: 200,
-        body: collected_data_fixture,
-      )
-    stub_request(:post, %r{/profiles/#{profile.id}/collected_data\z}).
-      with(body: JSON.parse(collected_data_update_fixture)).
-      to_return(
-        status: 200,
-        body: collected_data_fixture,
-      )
-  end
-
-  it "succeeds" do
-    create_profile_args = {
+  let(:profile_id) { JSON.parse(profile_fixture)["id"] }
+  let(:create_profile_args) do
+    {
       role: Passfort::Role::COMPANY_CUSTOMER,
       collected_data: {
         entity_type: Passfort::EntityType::COMPANY,
@@ -49,10 +30,32 @@ RSpec.describe "running a company ownership check" do
         },
       },
     }
+  end
 
+  before do
+    stub_request(:post, %r{/profiles\z}).
+      with(body: create_profile_args).
+      to_return(status: 201, body: profile_fixture)
+    stub_request(:post, %r{/profiles/#{profile_id}/checks\z}).
+      with(body: { check_type: "COMPANY_OWNERSHIP" }).
+      to_return(status: 201, body: check_fixture)
+    stub_request(:get, %r{/profiles/#{profile_id}/collected_data\z}).
+      to_return(
+        status: 200,
+        body: collected_data_fixture,
+      )
+    stub_request(:post, %r{/profiles/#{profile_id}/collected_data\z}).
+      with(body: JSON.parse(collected_data_update_fixture)).
+      to_return(
+        status: 200,
+        body: collected_data_fixture,
+      )
+  end
+
+  it "succeeds" do
     profile = client.profiles.create(create_profile_args)
 
-    expect(profile.id).to eq(JSON.parse(profile_fixture)["id"])
+    expect(profile.id).to eq(profile_id)
 
     check = client.checks.create(profile_id: profile.id, check_type: "COMPANY_OWNERSHIP")
 
