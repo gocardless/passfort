@@ -59,13 +59,13 @@ RSpec.describe "running a company ownership check" do
 
     check = client.checks.create(profile_id: profile.id, check_type: "COMPANY_OWNERSHIP")
 
-    shareholders = check.output_data["ownership_structure"]["shareholders"]
-    beneficial_owners = shareholders.select { |sh| sh["total_percentage"] >= 25 }
+    shareholders = check.output_data[:ownership_structure][:shareholders]
+    beneficial_owners = shareholders.select { |sh| sh[:total_percentage] >= 25 }
 
     collected_data = client.profiles.collected_data(profile.id).to_h
 
-    collected_data["ownership_structure"] ||= {}
-    collected_data["ownership_structure"]["shareholders"] = beneficial_owners
+    collected_data[:ownership_structure] ||= {}
+    collected_data[:ownership_structure][:shareholders] = beneficial_owners
 
     client.profiles.update_collected_data(profile.id, collected_data)
   end
