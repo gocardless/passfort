@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_support/core_ext/hash"
+
 module Passfort
   module Resource
     class Base
@@ -8,7 +10,7 @@ module Passfort
       end
 
       def initialize(attributes)
-        @attributes = attributes.symbolize_keys
+        @attributes = attributes.with_indifferent_access
       end
 
       def to_h
