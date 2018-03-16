@@ -4,11 +4,12 @@ module Passfort
   module Errors
     # Represents any response from the API which is not a 200 OK
     class APIError < StandardError
-      attr_reader :response
+      attr_reader :response, :errors
 
-      def initialize(msg, response = nil)
+      def initialize(msg, errors = [], response = nil)
         super(msg)
         @response = response
+        @errors = errors
       end
     end
   end

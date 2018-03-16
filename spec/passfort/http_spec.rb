@@ -18,45 +18,35 @@ RSpec.describe Passfort::Http do
       let(:status) { 404 }
       let(:error_class) { Passfort::Errors::RequestError }
 
-      it "raises a specific APIError" do
-        is_expected.to raise_error(instance_of(error_class))
-      end
+      it { is_expected.to raise_error(error_class) }
     end
 
     context "when returning an invalid API Key error" do
       let(:error_code) { 204 }
       let(:error_class) { Passfort::Errors::InvalidAPIKeyError }
 
-      it "raises a specific APIError" do
-        is_expected.to raise_error(instance_of(error_class))
-      end
+      it { is_expected.to raise_error(error_class) }
     end
 
     context "when returning an invalid input data error" do
       let(:error_code) { 201 }
       let(:error_class) { Passfort::Errors::InvalidInputDataError }
 
-      it "raises a specific APIError" do
-        is_expected.to raise_error(instance_of(error_class))
-      end
+      it { is_expected.to raise_error(error_class) }
     end
 
     context "when returning a chargeable limit reached error" do
       let(:error_code) { 104 }
       let(:error_class) { Passfort::Errors::ChargeableLimitReachedError }
 
-      it "raises a specific APIError" do
-        is_expected.to raise_error(instance_of(error_class))
-      end
+      it { is_expected.to raise_error(error_class) }
     end
 
     context "when returning an unknown API error" do
       let(:error_code) { 203 }
-      let(:error_class) { Passfort::Errors::APIError }
+      let(:error_class) { Passfort::Errors::UnknownApiError }
 
-      it "raises a specific APIError" do
-        is_expected.to raise_error(instance_of(error_class))
-      end
+      it { is_expected.to raise_error(error_class) }
     end
 
     context "when returning a successful result" do
