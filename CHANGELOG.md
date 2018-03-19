@@ -6,6 +6,11 @@ Unreleased
 
 No changes.
 
+0.2.1
+-----
+
+- Include detailed error information in any raised errors.
+
 0.2.0
 -----
 
