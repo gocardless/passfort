@@ -4,7 +4,7 @@ Changelog
 Unreleased
 ----------
 
-No changes.
+- Raise UnparsesableResponseError when the response cannot be parsed as JSON.
 
 0.2.1
 -----
