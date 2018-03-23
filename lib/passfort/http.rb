@@ -18,6 +18,8 @@ module Passfort
       body = JSON.parse(response.body)
       handle_error(response, body)
       body
+    rescue JSON::ParserError
+      raise Passfort::Errors::UnparseableResponseError.new([], response)
     end
 
     def post(path, body:)
@@ -29,6 +31,8 @@ module Passfort
       body = JSON.parse(response.body)
       handle_error(response, body)
       body
+    rescue JSON::ParserError
+      raise Passfort::Errors::UnparseableResponseError.new([], response)
     end
 
     private

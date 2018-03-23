@@ -49,6 +49,13 @@ RSpec.describe Passfort::Http do
       it { is_expected.to raise_error(error_class) }
     end
 
+    context "when returning a response that can't be parsed as JSON" do
+      let(:body) { "<html><body><h1>something that isn't json</h1></body></html>" }
+      let(:error_class) { Passfort::Errors::UnparseableResponseError }
+
+      it { is_expected.to raise_error(error_class) }
+    end
+
     context "when returning a successful result" do
       let(:result) { subject.call }
 
