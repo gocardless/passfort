@@ -12,7 +12,7 @@ RSpec.describe Passfort::Http do
     let(:error_code) { 0 }
     let(:body) { { errors: { code: error_code } }.to_json }
 
-    before { stub_request(method, api_path). to_return(status: status, body: body) }
+    before { stub_request(method, api_path).to_return(status: status, body: body) }
 
     context "when returning a request error" do
       let(:status) { 404 }
@@ -67,6 +67,13 @@ RSpec.describe Passfort::Http do
       it "includes the id response" do
         expect(result).to include("id" => "6c1d594a-496e-11e7-911e-acbc32b67d7b")
       end
+    end
+
+    context "when the request times out" do
+      before { stub_request(method, api_path).to_raise(Excon::Errors::Timeout) }
+      let(:error_class) { Passfort::Errors::TimeoutError }
+
+      it { is_expected.to raise_error(error_class) }
     end
   end
 
