@@ -20,6 +20,8 @@ module Passfort
       body
     rescue JSON::ParserError
       raise Passfort::Errors::UnparseableResponseError.new([], response)
+    rescue Excon::Errors::Timeout
+      raise Passfort::Errors::TimeoutError
     end
 
     def post(path, body:)
@@ -33,6 +35,8 @@ module Passfort
       body
     rescue JSON::ParserError
       raise Passfort::Errors::UnparseableResponseError.new([], response)
+    rescue Excon::Errors::Timeout
+      raise Passfort::Errors::TimeoutError
     end
 
     private
