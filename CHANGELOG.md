@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+No changes.
+
+0.2.3
+-----
+
 - Raise `Passfort::Errors::TimeoutError` when a request times out.
 
 0.2.2
