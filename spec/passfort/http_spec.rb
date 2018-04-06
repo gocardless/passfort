@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "timecop"
 
 RSpec.describe Passfort::Http do
   let(:http) { described_class.new("api_key") }
@@ -77,12 +78,45 @@ RSpec.describe Passfort::Http do
     end
   end
 
+  shared_examples_for "an API call that sends notifications" do
+    let(:api_path) { Passfort::Http::DOMAIN + Passfort::Http::ROOT_PATH + path }
+    let(:notifications) { [] }
+    let(:time) { Time.local(1990) }
+    let(:payload) { { path: path, response: be_truthy } }
+    let(:expected_notification) do
+      have_attributes(
+        name: "passfort.#{method}",
+        transaction_id: match(/\A.{20}\Z/),
+        time: time,
+        end: time,
+        payload: payload,
+      )
+    end
+    let(:result) { subject.call }
+
+    before do
+      ActiveSupport::Notifications.subscribe do |*args|
+        notifications << ActiveSupport::Notifications::Event.new(*args)
+      end
+      stub_request(method, api_path).to_return(body: {}.to_json)
+      payload[:body] = be_truthy if method == :post
+    end
+
+    it "records a notification" do
+      Timecop.freeze(time) do
+        result
+      end
+      expect(notifications).to match([expected_notification])
+    end
+  end
+
   describe "#get" do
     subject { -> { http.get(path) } }
 
     let(:method) { :get }
 
     it_behaves_like "an API call that handles all errors"
+    it_behaves_like "an API call that sends notifications"
   end
 
   describe "#post" do
@@ -91,5 +125,6 @@ RSpec.describe Passfort::Http do
     let(:method) { :post }
 
     it_behaves_like "an API call that handles all errors"
+    it_behaves_like "an API call that sends notifications"
   end
 end

@@ -6,6 +6,11 @@ Unreleased
 
 No changes.
 
+0.3.0
+-----
+
+- Add `ActiveSupport::Notifications` support.
+
 0.2.3
 -----
 

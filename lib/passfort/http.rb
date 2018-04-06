@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require "json"
+require "active_support/notifications"
 require "excon"
+require "json"
 
 module Passfort
   class Http
@@ -14,32 +15,51 @@ module Passfort
     end
 
     def get(path)
-      response = @connection.get(path: ROOT_PATH + path, headers: { apikey: @api_key })
-      body = JSON.parse(response.body)
-      handle_error(response, body)
-      body
-    rescue JSON::ParserError
-      raise Passfort::Errors::UnparseableResponseError.new([], response)
-    rescue Excon::Errors::Timeout
-      raise Passfort::Errors::TimeoutError
+      execute(
+        -> {
+          @connection.get(
+            path: ROOT_PATH + path,
+            headers: { apikey: @api_key },
+          )
+        },
+        :get,
+        path: path,
+      )
     end
 
     def post(path, body:)
-      response = @connection.post(
-        path: ROOT_PATH + path,
-        body: body.to_json,
-        headers: { apikey: @api_key, "Content-Type" => "application/json" },
+      execute(
+        -> {
+          @connection.post(
+            path: ROOT_PATH + path,
+            body: body.to_json,
+            headers: { apikey: @api_key, "Content-Type" => "application/json" },
+          )
+        },
+        :post,
+        path: path,
+        body: body,
       )
-      body = JSON.parse(response.body)
-      handle_error(response, body)
-      body
-    rescue JSON::ParserError
-      raise Passfort::Errors::UnparseableResponseError.new([], response)
-    rescue Excon::Errors::Timeout
-      raise Passfort::Errors::TimeoutError
     end
 
     private
+
+    def execute(get_response, method, payload)
+      started = Time.now
+      response = get_response.call
+      payload[:response] = response.body
+      body = JSON.parse(response.body)
+      handle_error(response, body)
+      body
+    rescue JSON::ParserError => raw_error
+      payload[:error] = raw_error
+      raise Passfort::Errors::UnparseableResponseError.new([], response)
+    rescue Excon::Errors::Timeout => raw_error
+      payload[:error] = raw_error
+      raise Passfort::Errors::TimeoutError
+    ensure
+      publish("passfort.#{method}", started, Time.now, SecureRandom.hex(10), payload)
+    end
 
     # error codes: https://passfort.com/developer/v4/data-reference/ErrorCodes
     def handle_error(response, body)
@@ -60,6 +80,10 @@ module Passfort
                     else Passfort::Errors::UnknownApiError
                     end
       raise error_class.new(errors, response)
+    end
+
+    def publish(*args)
+      ActiveSupport::Notifications.publish(*args)
     end
   end
 end
