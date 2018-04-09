@@ -9,9 +9,12 @@ module Passfort
     DOMAIN = "https://api.passfort.com"
     ROOT_PATH = "/4.0"
 
-    def initialize(api_key, connection: Excon.new(DOMAIN))
+    attr_reader :api_key, :connection
+
+    def initialize(api_key, excon_opts = {})
       @api_key = api_key
-      @connection = connection
+      uri = excon_opts[:domain] || DOMAIN
+      @connection = Excon.new(uri, excon_opts.except(:domain))
     end
 
     def get(path)

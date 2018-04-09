@@ -4,8 +4,8 @@ require "passfort/http"
 
 module Passfort
   class Client
-    def initialize(api_key:)
-      @http = Passfort::Http.new(api_key)
+    def initialize(api_key:, excon_opts: {})
+      @http = Passfort::Http.new(api_key, excon_opts)
     end
 
     def profiles

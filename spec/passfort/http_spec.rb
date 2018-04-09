@@ -110,6 +110,34 @@ RSpec.describe Passfort::Http do
     end
   end
 
+  describe "#initialize" do
+    describe "with an API key" do
+      it "sets the .api_key" do
+        expect(http.api_key).to eq("api_key")
+      end
+
+      it "sets a default endpoint" do
+        expect(described_class::DOMAIN).to include(http.connection.data[:hostname])
+      end
+    end
+
+    it "accepts an alternate endpoint" do
+      example_endpoint = "https://example.net"
+      client = described_class.new("api_key", "domain": example_endpoint)
+      expect(example_endpoint).to include(client.connection.data[:hostname])
+    end
+
+    it "supports setting open_timeout" do
+      http = described_class.new("api_key", "open_timeout": 1)
+      expect(http.connection.data[:open_timeout]).to eq(1)
+    end
+
+    it "supports setting read_timeout" do
+      http = described_class.new("api_key", "read_timeout": 2)
+      expect(http.connection.data[:read_timeout]).to eq(2)
+    end
+  end
+
   describe "#get" do
     subject { -> { http.get(path) } }
 
