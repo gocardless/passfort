@@ -6,6 +6,11 @@ Unreleased
 
 No changes.
 
+0.3.1
+-----
+
+- Allow setting connection properties
+
 0.3.0
 -----
 
