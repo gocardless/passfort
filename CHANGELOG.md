@@ -6,6 +6,11 @@ Unreleased
 
 No changes.
 
+0.4.0
+-----
+
+- Add `company_search` functionality
+
 0.3.1
 -----
 

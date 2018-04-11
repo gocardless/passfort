@@ -19,5 +19,17 @@ module Passfort
     def tasks
       Endpoint::Tasks.new(@http)
     end
+
+    def company_search(country, query, state = nil, provider = nil)
+      search_query = "/search/companies?country=#{CGI.escape(country)}"
+      search_query += "&query=#{CGI.escape(query)}"
+      search_query += "&state=#{CGI.escape(state)}" unless state.nil?
+      search_query += "&provider=#{CGI.escape(provider)}" unless provider.nil?
+
+      response = @http.get(search_query)
+      response["companies"].map do |company|
+        Passfort::Resource::CompanySummary.new(company)
+      end
+    end
   end
 end
