@@ -55,7 +55,7 @@ RSpec.describe Passfort::Endpoint::Profiles do
   end
 
   describe "#update_collected_data" do
-    subject { profiles.update_collected_data(id, data) }
+    subject(:update_collected_data) { profiles.update_collected_data(id, data) }
 
     let(:id) { profile_fixture["id"] }
     let(:data) do
@@ -70,7 +70,7 @@ RSpec.describe Passfort::Endpoint::Profiles do
     end
 
     it do
-      is_expected.to have_attributes(
+      expect(update_collected_data).to have_attributes(
         entity_type: Passfort::EntityType::COMPANY,
         metadata: { country_of_incorporation: "FR" },
       )
