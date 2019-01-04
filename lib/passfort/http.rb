@@ -60,6 +60,9 @@ module Passfort
     rescue Excon::Errors::Timeout => raw_error
       payload[:error] = raw_error
       raise Passfort::Errors::TimeoutError
+    rescue Excon::Error::BadGateway => raw_error
+      payload[:error] = raw_error
+      raise Passfort::Errors::BadGatewayError
     ensure
       publish("passfort.#{method}", started, Time.now, SecureRandom.hex(10), payload)
     end
