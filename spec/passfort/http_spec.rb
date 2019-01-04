@@ -72,6 +72,7 @@ RSpec.describe Passfort::Http do
 
     context "when the request times out" do
       before { stub_request(method, api_path).to_raise(Excon::Errors::Timeout) }
+
       let(:error_class) { Passfort::Errors::TimeoutError }
 
       it { is_expected.to raise_error(error_class) }
