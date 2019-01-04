@@ -6,6 +6,11 @@ Unreleased
 
 No changes.
 
+0.4.1
+-----
+
+- Treat Bad Gateway (502) errors separately
+
 0.4.0
 -----
 
