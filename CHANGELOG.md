@@ -6,6 +6,11 @@ Unreleased
 
 No changes.
 
+0.4.2
+-----
+
+- Add Rails 6 compatibility
+
 0.4.1
 -----
 
